@@ -1,107 +1,248 @@
 import Link from "next/link";
 import Image from "next/image";
+import {
+  Row,
+  Col,
+  Card,
+  CardImg,
+  CardBody,
+  CardTitle,
+  CardText,
+  Button,
+} from "react-bootstrap";
 export default function Dashboard() {
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
       <h2 id="wd-dashboard-published">Published Courses (8)</h2> <hr />
       <div id="wd-dashboard-courses">
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/1234" className="wd-dashboard-course-link">
-            <Image src="/images/reactjs.jpg" alt="react js logo" width={200} height={150} />
-            <div>
-              <h5> CS1234 React JS </h5>
-              <p className="wd-dashboard-course-title">
-                Full Stack software development
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course"> 
-          <Link href="/Courses/2000" className="wd-dashboard-course-link">
-          <Image src="/images/blue.jpg" alt="" width={200} height={150} />
-            <div>
-              <h5> CS2000 Intro to Programming </h5>
-              <p className="wd-dashboard-course-title">
-                Introduction to programming principles
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/2100" className="wd-dashboard-course-link">
-          <Image src="/images/indigo.jpg" alt="react js logo" width={200} height={150} />
-            <div>
-              <h5> CS2100 Intro to Programming 2 </h5>
-              <p className="wd-dashboard-course-title">
-                Introduction to programming principles with Java
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/3000" className="wd-dashboard-course-link">
-          <Image src="/images/orange.jpg" alt="react js logo" width={200} height={150} />
-            <div>
-              <h5> CS3000 Object Oriented Programming </h5>
-              <p className="wd-dashboard-course-title">
-                Object oriented design principles
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/3500" className="wd-dashboard-course-link">
-          <Image src="/images/pink.jpg" alt="react js logo" width={200} height={150} />
-            <div>
-              <h5> CS3500 Algorithms and Data </h5>
-              <p className="wd-dashboard-course-title">
-                Intro to algorithms and data structres 
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/3800" className="wd-dashboard-course-link">
-          <Image src="/images/purple.jpg" alt="react js logo" width={200} height={150} />
-            <div>
-              <h5> CS3800 Theory of Computation </h5>
-              <p className="wd-dashboard-course-title">
-                Dive into theory of computation
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/2800" className="wd-dashboard-course-link">
-          <Image src="/images/red.jpg" alt="react js logo" width={200} height={150} />
-            <div>
-              <h5> CS2800 Logic and Computation </h5>
-              <p className="wd-dashboard-course-title">
-                Logic and computation
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
-        <div className="wd-dashboard-course">
-          <Link href="/Courses/4550" className="wd-dashboard-course-link">
-          <Image src="/images/yellow.jpg" alt="react js logo" width={200} height={150} />
-            <div>
-              <h5> CS4550 Web Development </h5>
-              <p className="wd-dashboard-course-title">
-                Web design principles
-              </p>
-              <button> Go </button>
-            </div>
-          </Link>
-        </div>
+        <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+          <Col className="wd-dashboard-course">
+            <Card>
+              <Link
+                href="/Courses/1234"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/reactjs.jpg"
+                  alt="react js logo"
+                  width={300}
+                  height={150}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS1234 React JS
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Full Stack software developer
+                  </CardText>
+                  <Button variant="primary">Go</Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col className="wd-dashboard-course">
+            <Card>
+              <Link
+                href="/Courses/2000"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/blue.jpg"
+                  alt="blue"
+                  width={300}
+                  height={150}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS2000 Intro to Programming
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Introduction to programming principles
+                  </CardText>
+                  <Button variant="primary">Go</Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col className="wd-dashboard-course">
+            <Card>
+              <Link
+                href="/Courses/2100"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/indigo.jpg"
+                  alt="indigo"
+                  width={300}
+                  height={150}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS2100 Intro to Programming 2
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Introduction to programming principles with Java
+                  </CardText>
+                  <Button variant="primary">Go</Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col className="wd-dashboard-course">
+            <Card>
+              <Link
+                href="/Courses/3000"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/orange.jpg"
+                  alt="orange"
+                  width={300}
+                  height={150}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS3000 Object Oriented Programming
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Object oriented design principles
+                  </CardText>
+                  <Button variant="primary">Go</Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+        <Col className="wd-dashboard-course">
+            <Card>
+              <Link
+                href="/Courses/3500"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/pink.jpg"
+                  alt="pink"
+                  width={300}
+                  height={150}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS3500 Algorithms and Data
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Intro to algorithms and data structures
+                  </CardText>
+                  <Button variant="primary">Go</Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col className="wd-dashboard-course">
+            <Card>
+              <Link
+                href="/Courses/3800"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/purple.jpg"
+                  alt="purple"
+                  width={300}
+                  height={150}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS3800 Theory of Computation
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Dive into theory of computation
+                  </CardText>
+                  <Button variant="primary">Go</Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col className="wd-dashboard-course">
+            <Card>
+              <Link
+                href="/Courses/2800"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/red.jpg"
+                  alt="red"
+                  width={300}
+                  height={150}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS2800 Logic and Computation
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Logic and computation principles
+                  </CardText>
+                  <Button variant="primary">Go</Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+          <Col className="wd-dashboard-course">
+            <Card>
+              <Link
+                href="/Courses/4550"
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+              >
+                <CardImg
+                  variant="top"
+                  src="/images/yellow.jpg"
+                  alt="yellow"
+                  width={300}
+                  height={150}
+                />
+                <CardBody>
+                  <CardTitle className="wd-dashboard-course-title text-nowrap overflow-hidden">
+                    CS4550 Web Development
+                  </CardTitle>
+                  <CardText
+                    className="wd-dashboard-course-description overflow-hidden"
+                    style={{ height: "100px" }}
+                  >
+                    Principles of web development
+                  </CardText>
+                  <Button variant="primary">Go</Button>
+                </CardBody>
+              </Link>
+            </Card>
+          </Col>
+        </Row>
       </div>
     </div>
-);}
+  );
+}
