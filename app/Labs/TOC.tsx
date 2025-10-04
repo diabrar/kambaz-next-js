@@ -29,7 +29,7 @@ export default function TOC() {
         </NavLink>
       </NavItem>
       <NavItem>
-        <NavLink id="wd-github" href="https://github.com/diabrar">My GitHub</NavLink>
+        <NavLink id="wd-github" href="https://github.com/diabrar/kambaz-next-js/tree/a2">My GitHub</NavLink>
       </NavItem>
     </Nav>
   );
