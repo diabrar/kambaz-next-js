@@ -1,9 +1,12 @@
+"use client";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import * as db from "../../../../Database";
 import {
   Form,
   Row,
   Col,
   Card,
-  Button,
   FormLabel,
   FormControl,
   FormSelect,
@@ -12,20 +15,24 @@ import {
 } from "react-bootstrap";
 
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const assignment = db.assignments.find((a: any) => a._id === aid);
+  if (!assignment) {
+    return <div className="p-4 text-danger">Assignment not found.</div>;
+  }
   return (
     <div id="wd-assignments-editor" className="container-fluid">
       <Card className="border-0">
         <CardBody className="p-4">
           <Form className="mb-3" id="wd-name">
             <FormLabel>Assignment Name</FormLabel>
-            <FormControl type="text" defaultValue="A1 - ENV + HTML" />
+            <FormControl type="text" defaultValue={assignment.title} />
           </Form>
           <Form className="mb-4" id="wd-description">
             <FormControl
               as="textarea"
               rows={15}
-              value="The assignment is available online.
-                Submit a link to the landing page of your web application."
+              defaultValue={"The assignment is available online. Submit a link to the landing page of your web application."}
             />
           </Form>
           <Row className="g-3 align-items-start mb-3">
@@ -80,35 +87,11 @@ export default function AssignmentEditor() {
               <Card className="border rounded">
                 <CardBody className="p-3">
                   <div className="fw-semibold mb-2">Online Entry Options</div>
-                  <FormCheck
-                    id="wd-text-entry"
-                    type="checkbox"
-                    label="Text Entry"
-                    className="mb-2"
-                  />
-                  <FormCheck
-                    id="wd-website-url"
-                    type="checkbox"
-                    label="Website URL"
-                    className="mb-2"
-                  />
-                  <FormCheck
-                    id="wd-media-recordings"
-                    type="checkbox"
-                    label="Media Recordings"
-                    className="mb-2"
-                  />
-                  <FormCheck
-                    id="wd-student-annotation"
-                    type="checkbox"
-                    label="Student Annotation"
-                    className="mb-2"
-                  />
-                  <FormCheck
-                    id="wd-file-upload"
-                    type="checkbox"
-                    label="File Uploads"
-                  />
+                  <FormCheck id="wd-text-entry" type="checkbox" label="Text Entry" />
+                  <FormCheck id="wd-website-url" type="checkbox" label="Website URL" />
+                  <FormCheck id="wd-media-recordings" type="checkbox" label="Media Recordings" />
+                  <FormCheck id="wd-student-annotation" type="checkbox" label="Student Annotation" />
+                  <FormCheck id="wd-file-upload" type="checkbox" label="File Uploads" />
                 </CardBody>
               </Card>
             </Col>
@@ -145,8 +128,12 @@ export default function AssignmentEditor() {
             </Col>
           </Row>
           <div className="d-flex justify-content-end gap-2 mt-4">
-            <Button variant="light">Cancel</Button>
-            <Button variant="danger">Save</Button>
+            <Link href={`/Courses/${cid}/Assignments`} className="btn btn-light">
+              Cancel
+            </Link>
+            <Link href={`/Courses/${cid}/Assignments`} className="btn btn-danger">
+              Save
+            </Link>
           </div>
         </CardBody>
       </Card>

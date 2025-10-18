@@ -1,3 +1,6 @@
+"use client";
+import { useParams } from "next/navigation";
+import * as db from "../../../Database";
 import Link from "next/link";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
@@ -7,6 +10,12 @@ import LessonControlButtons from "../Modules/LessonControlButtons";
 import AssignmentControls from "./AssignmentControls";
 
 export default function Assignments() {
+  const { cid } = useParams(); 
+  const assignments = db.assignments; 
+  const courseAssignments = assignments.filter(
+    (assignment: any) => assignment.course === cid
+  );
+
   return (
     <div id="wd-assignments">
       <AssignmentControls />
@@ -15,60 +24,30 @@ export default function Assignments() {
           <div className="wd-title p-3 ps-2 bg-secondary">
             <BsGripVertical className="me-2 fs-3" />
             <IoMdArrowDropdown />
-            ASSIGNMENTS{" "}
+            ASSIGNMENTS
           </div>
           <ListGroup className="wd-assignment-list rounded-0">
-            <ListGroupItem className="wd-assignment-list-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <PiNotePencilBold color="green" className="me-2 fs-3 " />
-              <Link
-                href="/Courses/1234/Assignments/123"
-                className="wd-assignment-link"
+            {courseAssignments.map((assignment: any) => (
+              <ListGroupItem
+                key={assignment._id}
+                className="wd-assignment-list-item p-3 ps-1"
               >
-                A1
-              </Link>
-              <LessonControlButtons />
-              <div className="d-flex flex-column">
-                <small className="text-muted">
-                  Multiple Modules | Not available until May 6 at 12:00am | Due
-                  May 13 at 11:59pm | 100 pts
-                </small>
-              </div>
-            </ListGroupItem>
-            <ListGroupItem className="wd-assignment-list-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <PiNotePencilBold color="green" className="me-2 fs-3 " />
-              <Link
-                href="/Courses/1234/Assignments/123"
-                className="wd-assignment-link"
-              >
-                A2
-              </Link>{" "}
-              <LessonControlButtons />
-              <div className="d-flex flex-column">
-                <small className="text-muted">
-                  Multiple Modules | Not available until May 6 at 12:00am | Due
-                  May 13 at 11:59pm | 100 pts
-                </small>
-              </div>
-            </ListGroupItem>
-            <ListGroupItem className="wd-assignment-list-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <PiNotePencilBold color="green" className="me-2 fs-3 " />
-              <Link
-                href="/Courses/1234/Assignments/123"
-                className="wd-assignment-link"
-              >
-                A3
-              </Link>{" "}
-              <LessonControlButtons />
-              <div className="d-flex flex-column">
-                <small className="text-muted">
-                  Multiple Modules | Not available until May 6 at 12:00am | Due
-                  May 13 at 11:59pm | 100 pts
-                </small>
-              </div>
-            </ListGroupItem>
+                <BsGripVertical className="me-2 fs-3" />
+                <PiNotePencilBold color="green" className="me-2 fs-3" />
+                <Link
+                  href={`/Courses/${cid}/Assignments/${assignment._id}`}
+                  className="wd-assignment-link text-decoration-none"
+                >
+                  {assignment.title}
+                </Link>
+                <LessonControlButtons />
+                <div className="d-flex flex-column">
+                  <small className="text-muted">
+                    Example details | 100 pts
+                  </small>
+                </div>
+              </ListGroupItem>
+            ))}
           </ListGroup>
         </ListGroupItem>
       </ListGroup>
