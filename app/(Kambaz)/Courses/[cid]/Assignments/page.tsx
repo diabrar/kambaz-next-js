@@ -13,7 +13,7 @@ export default function Assignments() {
   const { cid } = useParams(); 
   const assignments = db.assignments; 
   const courseAssignments = assignments.filter(
-    (assignment: any) => assignment.course === cid
+    (assignment) => assignment.course === cid
   );
 
   return (
@@ -27,7 +27,7 @@ export default function Assignments() {
             ASSIGNMENTS
           </div>
           <ListGroup className="wd-assignment-list rounded-0">
-            {courseAssignments.map((assignment: any) => (
+            {courseAssignments.map((assignment) => (
               <ListGroupItem
                 key={assignment._id}
                 className="wd-assignment-list-item p-3 ps-1"
