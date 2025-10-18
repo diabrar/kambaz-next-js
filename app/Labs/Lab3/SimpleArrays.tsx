@@ -4,7 +4,7 @@ export default function SimpleArrays() {
   const constant1 = functionScoped - blockScoped;
   const numberArray1 = [1, 2, 3, 4, 5];
   const stringArray1 = ["string1", "string2"];
-  const htmlArray1 = [<ol><li>Buy milk</li> <li>Feed the pets</li></ol>];
+  const htmlArray1 = [<ol><li key={1}>Buy milk</li> <li key={2}>Feed the pets</li></ol>];
   const variableArray1 = [
     functionScoped,
     blockScoped,
