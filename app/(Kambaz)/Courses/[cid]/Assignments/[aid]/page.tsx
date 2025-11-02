@@ -20,15 +20,8 @@ export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const router = useRouter();
   const dispatch = useDispatch();
-  const assignmentsFromStore = useSelector((state: any) => {
-    if (state?.assignments?.assignments) {
-      return state.assignments.assignments;
-    }
-    return undefined;
-  });
-  const assignments = assignmentsFromStore ?? db.assignments;
-  const assignment =
-    aid !== "new" ? assignments.find((a: any) => a._id === aid) : null;
+  const { assignments } = useSelector((state: any) => state.assignmentReducer);
+  const assignment = aid !== "new" ? assignments.find((a: any) => a._id === aid) : null;
   if (aid !== "new" && !assignment) {
     return <div className="p-4 text-danger">Assignment not found.</div>;
   }

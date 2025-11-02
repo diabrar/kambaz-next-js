@@ -17,6 +17,7 @@ export default function Modules() {
   const { cid } = useParams();
   const [moduleName, setModuleName] = useState("");
   const { modules } = useSelector((state: any) => state.modulesReducer);
+  console.log(modules);
   const dispatch = useDispatch();
   return (
     <div>
