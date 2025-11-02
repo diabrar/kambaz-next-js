@@ -1,7 +1,8 @@
 "use client";
 import { useParams } from "next/navigation";
-import * as db from "../../../Database";
+import { useSelector } from "react-redux";
 import Link from "next/link";
+import * as db from "../../../Database";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { BsGripVertical } from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -10,12 +11,16 @@ import LessonControlButtons from "../Modules/LessonControlButtons";
 import AssignmentControls from "./AssignmentControls";
 
 export default function Assignments() {
-  const { cid } = useParams(); 
-  const assignments = db.assignments; 
-  const courseAssignments = assignments.filter(
-    (assignment) => assignment.course === cid
+  const { cid } = useParams();
+  const assignmentsFromStore = useSelector((state: any) => {
+    if (state?.assignments?.assignments) {
+      return state.assignments.assignments;
+    }
+    return db.assignments;
+  });
+  const courseAssignments = assignmentsFromStore.filter(
+    (assignment: any) => assignment.course === cid
   );
-
   return (
     <div id="wd-assignments">
       <AssignmentControls />
@@ -27,7 +32,7 @@ export default function Assignments() {
             ASSIGNMENTS
           </div>
           <ListGroup className="wd-assignment-list rounded-0">
-            {courseAssignments.map((assignment) => (
+            {courseAssignments.map((assignment: any) => (
               <ListGroupItem
                 key={assignment._id}
                 className="wd-assignment-list-item p-3 ps-1"
@@ -42,9 +47,7 @@ export default function Assignments() {
                 </Link>
                 <LessonControlButtons />
                 <div className="d-flex flex-column">
-                  <small className="text-muted">
-                    Example details | 100 pts
-                  </small>
+                  <small className="text-muted">Example details | 100 pts</small>
                 </div>
               </ListGroupItem>
             ))}

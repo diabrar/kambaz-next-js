@@ -1,7 +1,8 @@
 "use client";
-import { useParams } from "next/navigation";
-import Link from "next/link";
-import * as db from "../../../../Database";
+import { useParams, useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { addAssignment, updateAssignment } from "../reducer";
+import * as db from "../../../../Database/"; 
 import {
   Form,
   Row,
@@ -13,26 +14,64 @@ import {
   FormCheck,
   CardBody,
 } from "react-bootstrap";
+import { useRef } from "react";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
-  const assignment = db.assignments.find((a) => a._id === aid);
-  if (!assignment) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const assignmentsFromStore = useSelector((state: any) => {
+    if (state?.assignments?.assignments) {
+      return state.assignments.assignments;
+    }
+    return undefined;
+  });
+  const assignments = assignmentsFromStore ?? db.assignments;
+  const assignment =
+    aid !== "new" ? assignments.find((a: any) => a._id === aid) : null;
+  if (aid !== "new" && !assignment) {
     return <div className="p-4 text-danger">Assignment not found.</div>;
   }
+  const nameRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const pointsRef = useRef<HTMLInputElement>(null);
+  const dueRef = useRef<HTMLInputElement>(null);
+  const availableFromRef = useRef<HTMLInputElement>(null);
+  const availableUntilRef = useRef<HTMLInputElement>(null);
+  const handleCancel = () => {
+    router.push(`/Courses/${cid}/Assignments`);
+  };
+  const handleSave = () => {
+    const title = nameRef.current?.value || "new assignment";
+    dispatch(
+      addAssignment({
+        title, 
+        cid
+      })
+    )
+    router.push(`/Courses/${cid}/Assignments`);
+  };
+
   return (
     <div id="wd-assignments-editor" className="container-fluid">
       <Card className="border-0">
         <CardBody className="p-4">
           <Form className="mb-3" id="wd-name">
             <FormLabel>Assignment Name</FormLabel>
-            <FormControl type="text" defaultValue={assignment.title} />
+            <FormControl
+              type="text"
+              defaultValue={assignment ? assignment.title : ""}
+              ref={nameRef}
+            />
           </Form>
           <Form className="mb-4" id="wd-description">
             <FormControl
               as="textarea"
               rows={15}
-              defaultValue={"The assignment is available online. Submit a link to the landing page of your web application."}
+              defaultValue={
+                "The assignment is available online. Submit a link to the landing page of your web application."
+              }
+              ref={descriptionRef}
             />
           </Form>
           <Row className="g-3 align-items-start mb-3">
@@ -42,7 +81,7 @@ export default function AssignmentEditor() {
               </FormLabel>
             </Col>
             <Col sm={9}>
-              <FormControl id="wd-points" type="number" defaultValue={100} />
+              <FormControl id="wd-points" type="number" defaultValue={100} ref={pointsRef} />
             </Col>
           </Row>
           <Row className="g-3 align-items-start mb-3">
@@ -76,11 +115,7 @@ export default function AssignmentEditor() {
               </FormLabel>
             </Col>
             <Col sm={9}>
-              <FormSelect
-                id="wd-submission-types"
-                defaultValue="Online"
-                className="mb-3"
-              >
+              <FormSelect id="wd-submission-types" defaultValue="Online" className="mb-3">
                 <option value="Online">Online</option>
               </FormSelect>
 
@@ -108,32 +143,40 @@ export default function AssignmentEditor() {
 
               <Form className="mb-3" id="wd-due-date">
                 <FormLabel>Due</FormLabel>
-                <FormControl type="date" defaultValue="2024-05-13" />
+                <FormControl type="date" defaultValue="2024-05-13" ref={dueRef} />
               </Form>
 
               <Row className="g-3">
                 <Col md={6}>
                   <Form id="wd-available-from">
                     <FormLabel>Available from</FormLabel>
-                    <FormControl type="date" defaultValue="2024-05-06" />
+                    <FormControl
+                      type="date"
+                      defaultValue="2024-05-06"
+                      ref={availableFromRef}
+                    />
                   </Form>
                 </Col>
                 <Col md={6}>
                   <Form id="wd-available-until">
                     <FormLabel>Until</FormLabel>
-                    <FormControl type="date" defaultValue="2024-05-20" />
+                    <FormControl
+                      type="date"
+                      defaultValue="2024-05-20"
+                      ref={availableUntilRef}
+                    />
                   </Form>
                 </Col>
               </Row>
             </Col>
           </Row>
           <div className="d-flex justify-content-end gap-2 mt-4">
-            <Link href={`/Courses/${cid}/Assignments`} className="btn btn-light">
+            <button onClick={handleCancel} className="btn btn-light">
               Cancel
-            </Link>
-            <Link href={`/Courses/${cid}/Assignments`} className="btn btn-danger">
+            </button>
+            <button onClick={handleSave} className="btn btn-danger">
               Save
-            </Link>
+            </button>
           </div>
         </CardBody>
       </Card>
