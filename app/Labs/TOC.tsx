@@ -1,10 +1,11 @@
+"use client"
 import { Nav, NavItem, NavLink } from "react-bootstrap";
 import Link from "next/link";
 export default function TOC() {
   return (
     <Nav variant="pills">
       <NavItem>
-        <NavLink href="/Labs" as={Link}>
+        <NavLink href="/Labs/" as={Link}>
           Labs
         </NavLink>
       </NavItem>

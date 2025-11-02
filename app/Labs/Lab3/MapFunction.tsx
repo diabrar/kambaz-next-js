@@ -12,7 +12,7 @@ export default function MapFunction() {
       Todos:
       <ol>
         {todos.map((todo) => (
-          <li key={1}>{todo}</li>
+          <li key={todo.charAt(0)}>{todo}</li>
         ))}
       </ol>{" "}
       <hr />

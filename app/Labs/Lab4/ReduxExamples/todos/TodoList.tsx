@@ -12,7 +12,8 @@ export default function TodoList() {
         <TodoForm key={"td-item-1"} />
         {todos.map((todo: any) => (
           <TodoItem
-          todo={todo} />
+          todo={todo}
+           />
         ))}
       </ListGroup>
       <hr/>
