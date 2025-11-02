@@ -13,7 +13,7 @@ import ParentStateComponent from "./ParentStateComponent";
 import store from "./store";
 import { Provider } from "react-redux";
 import HelloRedux from "./ReduxExamples/HelloRedux";
-import ReduxExamples from "./ReduxExamples/page";
+import ReduxExamples from "./ReduxExamples";
 export default function Lab4() {
   function sayHello() {
     alert("Hello");
