@@ -8,7 +8,7 @@ import {
 } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import * as db from "../Database";
+import * as client from "../Courses/client";
 import {
   Row,
   Col,
@@ -26,10 +26,11 @@ import {
   addNewCourse,
   updateCourse,
   deleteCourse,
+  setCourses,
 } from "../Courses/[cid]/reducer";
+import { useEffect } from "react";
 export default function Dashboard() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = db;
   const { courses } = useSelector((state: any) => state.reducer);
   const dispatch = useDispatch();
   const [course, setCourse] = useState<any>({
@@ -41,6 +42,31 @@ export default function Dashboard() {
     image: "/images/reactjs.jpg",
     description: "New Description",
   });
+  const fetchCourses = async () => {
+    try {
+      const courses = await client.findMyCourses();
+      dispatch(setCourses(courses));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchCourses();
+  }, [currentUser]);
+  const onAddNewCourse = async () => {
+    const newCourse = await client.createCourse(course);
+    dispatch(setCourses([ ...courses, newCourse ]));
+  };
+  const onDeleteCourse = async (courseId: string) => {
+    const status = await client.deleteCourse(courseId);
+    dispatch(setCourses(courses.filter((course: { _id: string; }) => course._id !== courseId)));
+  };
+  const onUpdateCourse = async () => {
+    await client.updateCourse(course);
+    dispatch(setCourses(courses.map((c: { _id: any; }) => {
+        if (c._id === course._id) { return course; }
+        else { return c; }
+    })));};
   return (
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
@@ -49,14 +75,14 @@ export default function Dashboard() {
         <button
           className="btn btn-primary float-end"
           id="wd-add-new-course-click"
-          onClick={() => dispatch(addNewCourse(course))}
+          onClick={onAddNewCourse}
         >
           {" "}
           Add{" "}
         </button>
         <button
           className="btn btn-warning float-end me-2"
-          onClick={() => dispatch(updateCourse(course))}
+          onClick={updateCourse}
           id="wd-update-course-click"
         >
           Update{" "}
@@ -80,14 +106,6 @@ export default function Dashboard() {
       <div id="wd-dashboard-courses">
         <Row xs={1} sm={2} md={3} lg={4} className="g-4">
           {courses
-            .filter((course: any) =>
-              enrollments.some(
-                (enrollment) =>
-                  currentUser?._id && 
-                  enrollment.user === currentUser._id &&
-                  enrollment.course === course._id
-              )
-            )
             .map(
               (course: any) => (
                 <Col
@@ -131,7 +149,7 @@ export default function Dashboard() {
                           id="wd-edit-course-click"
                           onClick={(event) => {
                             event.preventDefault();
-                            () => dispatch(deleteCourse(course));
+                            onDeleteCourse(course._id);
                           }}
                           className="btn btn-warning me-2 float-end"
                         >
