@@ -5,17 +5,19 @@ import { setCurrentUser } from "../reducer";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import * as db from "../../Database";
+import { useRouter } from "next/navigation";
 import { FormControl, Button } from "react-bootstrap";
 import * as client from "../client";
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<any>({});
   const dispatch = useDispatch();
+  const router = useRouter();
   const signin = async () => {
     const user =  await client.signin(credentials);
     if (!user) return;
     dispatch(setCurrentUser(user));
-    redirect("/Dashboard");
+    router.push("/Dashboard");
   };
 
 
