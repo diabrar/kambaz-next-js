@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { setCurrentUser } from "../reducer";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FormControl, Button } from "react-bootstrap";
 import * as client from "../client";
 
@@ -15,7 +15,7 @@ export default function Signup() {
   const signup = async () => {
     const currentUser = await client.signup(user);
     dispatch(setCurrentUser(currentUser));
-    router.push("/Account/Profile");
+    redirect("/Account/Profile");
   };
   return (
     <div className="wd-signup-screen">
