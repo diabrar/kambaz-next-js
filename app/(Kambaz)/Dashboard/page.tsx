@@ -205,7 +205,7 @@ export default function Dashboard() {
             >
               <Card>
                 <CardImg
-                  src={course.image}
+                  src={"/images/blue.jpg"}
                   variant="top"
                   width="100%"
                   height={160}
