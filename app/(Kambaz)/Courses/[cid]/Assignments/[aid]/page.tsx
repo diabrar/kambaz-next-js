@@ -2,7 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { setAssignments } from "../reducer";
-import * as client from "../client"
+import * as client from "../../../client"
 import {
   Form,
   Row,

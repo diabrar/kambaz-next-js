@@ -10,13 +10,19 @@ import { FormControl, Button } from "react-bootstrap";
 import * as client from "../client";
 
 export default function Signin() {
-  const [credentials, setCredentials] = useState<any>({});
   const dispatch = useDispatch();
   const router = useRouter();
+  const [credentials, setCredentials] = useState<any>({});
   const signin = async () => {
     const user =  await client.signin(credentials);
     if (!user) return;
     dispatch(setCurrentUser(user));
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(
+        "kambaz-current-user",
+        JSON.stringify(user)
+      );
+    }
     router.push("/Dashboard");
   };
   return (

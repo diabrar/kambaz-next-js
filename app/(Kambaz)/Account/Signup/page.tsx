@@ -11,7 +11,6 @@ import * as client from "../client";
 export default function Signup() {
   const [user, setUser] = useState<any>({});
   const dispatch = useDispatch();
-  const router = useRouter();
   const signup = async () => {
     const currentUser = await client.signup(user);
     dispatch(setCurrentUser(currentUser));

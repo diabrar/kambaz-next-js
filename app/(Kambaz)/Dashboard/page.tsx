@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import * as client from "../Courses/client";
-import * as eClient from "../Enrollments/client"
 import {
   Row,
   Col,
@@ -39,7 +38,7 @@ export default function Dashboard() {
   const [showAllCourses, setShowAllCourses] = useState(false);
   const fetchEnrollments = async () => {
     try {
-      const rows = await eClient.findAllEnrollments();
+      const rows = await client.findAllEnrollments();
       dispatch(setEnrollments(rows));
     } catch (err) {
       console.error(err);
@@ -79,7 +78,7 @@ export default function Dashboard() {
   const handleEnroll = async (courseId: string) => {
     if (!currentUser) return;
     try {
-      await eClient.enrollUserInCourse(currentUser._id, courseId);
+      await client.enrollUserInCourse(currentUser._id, courseId);
       dispatch(enrollUserInCourse({ user: currentUser._id, course: courseId }));
     } catch (err) {
       console.error(err);
@@ -88,7 +87,7 @@ export default function Dashboard() {
   const handleUnenroll = async (courseId: string) => {
     if (!currentUser) return;
     try {
-      await eClient.unenrollUserFromCourse(currentUser._id, courseId);
+      await client.unenrollUserFromCourse(currentUser._id, courseId);
       dispatch(
         unenrollUserFromCourse({ user: currentUser._id, course: courseId })
       );
