@@ -10,7 +10,9 @@ export default function Session({ children }: { children: any }) {
       const currentUser = await client.profile();
       dispatch(setCurrentUser(currentUser));
     } catch (err: any) {
-      console.error(err);
+      if (err.response?.status !== 401) {
+        console.error(err);
+      }
     }
     setPending(false);
   };
