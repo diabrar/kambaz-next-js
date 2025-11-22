@@ -97,3 +97,39 @@ export const updateAssignment = async (assignment: any) => {
   );
   return response.data;
 };
+
+// users 
+export const findAllUsers = async () => {
+  const response = await axios.get(USERS_API);
+  return response.data;
+};
+
+export const findUsersForCourse = async (courseId: string) => {
+  const response = await axios.get(`${COURSES_API}/${courseId}/users`);
+  return response.data;
+};
+
+export const findUserById = async (userId: string) => {
+  const response = await axios.get(`${USERS_API}/${userId}`);
+  return response.data;
+};
+
+export const findUserByUsername = async (username: string) => {
+  const response = await axios.get(`${USERS_API}/${username}`);
+  return response.data;
+}
+
+export const createUser = async (user: any) => {
+  const response = await axios.post(USERS_API, user);
+  return response.data;
+};
+
+export const updateUser = async (userId: string, user: any) => {
+  const response = await axios.put(`${USERS_API}/${userId}`, user);
+  return response.data;
+};
+
+export const deleteUser = async (userId: string) => {
+  const response = await axios.delete(`${USERS_API}/${userId}`);
+  return response.data;
+};

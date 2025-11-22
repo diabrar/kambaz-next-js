@@ -32,7 +32,7 @@ export default function Dashboard() {
     number: "New Number",
     startDate: "2023-09-10",
     endDate: "2023-12-15",
-    image: "/public/images/blue.jpg",
+    image: "/images/blue.jpg",
     description: "New Description",
   });
   const [showAllCourses, setShowAllCourses] = useState(false);
@@ -99,15 +99,6 @@ export default function Dashboard() {
     try {
       const newCourse = await client.createCourse(course);
       dispatch(setCourses([...courses, newCourse]));
-      setCourse({
-        _id: "0",
-        name: "New Course",
-        number: "New Number",
-        startDate: "2023-09-10",
-        endDate: "2023-12-15",
-        image: "/images/reactjs.webp",
-        description: "New Description",
-      });
     } catch (err) {
       console.error(err);
     }
