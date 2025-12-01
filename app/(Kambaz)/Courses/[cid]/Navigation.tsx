@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function CourseNavigation({ cid }: { cid: string }) {
   const pathname = usePathname();
-  const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People/Table"];
+  const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People"];
   return (
     <ListGroup
       id="wd-course-navigation"
@@ -13,8 +13,11 @@ export default function CourseNavigation({ cid }: { cid: string }) {
       style={{ width: 200 }}
     >
       {links.map((label) => {
-        const path = `/Courses/${cid}/${label}`;
+        let path = `/Courses/${cid}/${label}`;
         const isActive = pathname.includes(`/${label}`);
+        if (label === "People") {
+          path = `/Courses/${cid}/People/Table`;
+        }
         return (
           <ListGroupItem
             key={label}

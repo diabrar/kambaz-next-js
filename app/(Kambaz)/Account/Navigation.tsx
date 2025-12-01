@@ -9,5 +9,7 @@ export default function AccountNavigation() {
     <Link href="/Account/Signin" className="list-group-item active border-0"> Signin </Link> <br />
     <Link href="/Account/Signup" className="list-group-item text-danger border-0"> Signup </Link> <br />
     <Link href="/Account/Profile" className="list-group-item text-danger border-0"> Profile </Link> <br />
+    {currentUser && currentUser.role === "ADMIN" && (
+       <Link href={`/Account/Users`} className={`list-group-item text-danger border-0`}> Users </Link> )}
    </div>
 );}
