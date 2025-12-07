@@ -63,7 +63,7 @@ export default function Quizzes() {
 
   const handleTogglePublish = async (quiz: any, quizId: string) => {
     try {
-      await client.updateQuiz({ ...quiz, published: true });
+      await client.updateQuiz({ ...quiz, published: !quiz.published });
       loadQuizzes();
     } catch (error) {
       console.error("Error toggling publish:", error);
@@ -126,7 +126,9 @@ export default function Quizzes() {
               <div className="d-flex align-items-center">
                 {isFaculty && (
                   <div className="me-3">
-                    {quiz.published ? "Published" : "Not Published"}
+                    <span style={{ color: quiz.published ? "green" : "inherit" }}>
+                      {quiz.published ? "Published" : "Not Published"}
+                    </span>
                     <button
                       className="btn btn-sm"
                       onClick={() => handleTogglePublish(quiz, quiz._id)}
@@ -136,7 +138,7 @@ export default function Quizzes() {
                         fontSize: "1.2rem",
                       }}
                     >
-                      {quiz.published ? <FaCheck /> : <MdDoNotDisturb />}
+                      {quiz.published ? "✅" : <MdDoNotDisturb />}
                     </button>
                   </div>
                 )}
