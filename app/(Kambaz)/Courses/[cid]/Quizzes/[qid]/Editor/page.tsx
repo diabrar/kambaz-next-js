@@ -411,18 +411,32 @@ export default function QuizEditor() {
                     value={currentQuestion.type}
                     onChange={(e) => {
                       const type = e.target.value;
+                      const baseQuestion = {
+                        _id: currentQuestion._id,
+                        title: currentQuestion.title,
+                        points: currentQuestion.points,
+                        question: currentQuestion.question,
+                        type: type
+                      };
+                      
                       if (type === "multiple-choice") {
-                        updateQuestionField("type", type);
-                        updateQuestionField("choices", [
-                          { text: "", isCorrect: true },
-                          { text: "", isCorrect: false }
-                        ]);
+                        setCurrentQuestion({
+                          ...baseQuestion,
+                          choices: [
+                            { text: "", isCorrect: true },
+                            { text: "", isCorrect: false }
+                          ]
+                        });
                       } else if (type === "true-false") {
-                        updateQuestionField("type", type);
-                        updateQuestionField("correctAnswer", "true");
+                        setCurrentQuestion({
+                          ...baseQuestion,
+                          correctAnswer: "true"
+                        });
                       } else if (type === "fill-in-blank") {
-                        updateQuestionField("type", type);
-                        updateQuestionField("possibleAnswers", [""]);
+                        setCurrentQuestion({
+                          ...baseQuestion,
+                          possibleAnswers: [""]
+                        });
                       }
                     }}
                   >
