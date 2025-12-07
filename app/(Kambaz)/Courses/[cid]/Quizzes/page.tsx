@@ -45,7 +45,7 @@ export default function Quizzes() {
         title: "New Quiz",
         description: "",
       });
-      router.push(`/Courses/${courseId}/Quizzes/${newQuiz._id}/edit`);
+      router.push(`/Courses/${courseId}/Quizzes/${newQuiz._id}/Editor`);
     } catch (error) {
       console.error("Error creating quiz:", error);
     }

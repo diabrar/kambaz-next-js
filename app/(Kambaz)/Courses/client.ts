@@ -156,7 +156,7 @@ export const createQuizForCourse = async (courseId: string, quiz: any) => {
 };
 
 export const updateQuiz = async (quiz: any) => {
-  const { data } = await axios.put(`${QUIZZES_API}/${quiz._id}`, quiz);
+  const { data } = await axiosWithCredentials.put(`${QUIZZES_API}/${quiz._id}`, quiz);
   return data;
 };
 
