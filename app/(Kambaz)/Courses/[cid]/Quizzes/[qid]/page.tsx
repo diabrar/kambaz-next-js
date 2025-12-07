@@ -1,7 +1,7 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { findQuizById } from "../../../client";
+import { findQuizById, updateQuiz } from "../../../client";
 import { profile } from "@/app/(Kambaz)/Account/client";
 
 export default function QuizDetails() {
@@ -35,6 +35,15 @@ export default function QuizDetails() {
     }
   };
 
+  const handleTogglePublish = async () => {
+    try {
+      await updateQuiz({ ...quiz, published: !quiz.published });
+      loadQuiz(); // Reload to get updated data
+    } catch (error) {
+      console.error("Error toggling publish:", error);
+    }
+  };
+
   if (!quiz) return <div>Loading...</div>;
 
   const isFaculty = currentUser?.role === "FACULTY";
@@ -52,6 +61,12 @@ export default function QuizDetails() {
                 onClick={() => router.push(`/Courses/${courseId}/Quizzes/${quizId}/Preview`)}
               >
                 Preview
+              </button>
+              <button
+                className={`btn ${quiz.published ? "btn-danger" : "btn-success"} me-2`}
+                onClick={handleTogglePublish}
+              >
+                {quiz.published ? "Unpublish" : "Publish"}
               </button>
               <button
                 className="btn btn-primary"
