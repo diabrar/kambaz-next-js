@@ -1,14 +1,16 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setQuizzes } from "../../reducer";
 import * as client from "../../../../client";
-
 
 export default function QuizEditor() {
   const params = useParams();
   const router = useRouter();
   const courseId = params.cid as string;
   const quizId = params.qid as string;
+  const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState<"details" | "questions">("details");
   const [quiz, setQuiz] = useState<any>({
@@ -49,8 +51,9 @@ export default function QuizEditor() {
 
   const handleSave = async () => {
     try {
-      await client.updateQuiz(quiz);
-      router.push(`/Courses/${courseId}/Quizzes/${quizId}`);
+      const updatedQuiz = await client.updateQuiz(quiz);
+      dispatch(setQuizzes(updatedQuiz));
+      router.push(`/Courses/${courseId}/Quizzes`)
     } catch (error) {
       console.error("Error saving quiz:", error);
     }
@@ -58,7 +61,8 @@ export default function QuizEditor() {
 
   const handleSaveAndPublish = async () => {
     try {
-      await client.updateQuiz({ ...quiz, published: true });
+      const updatedQuiz = await client.updateQuiz({ ...quiz, published: true });
+      dispatch(setQuizzes(updatedQuiz));
       router.push(`/Courses/${courseId}/Quizzes`);
     } catch (error) {
       console.error("Error saving quiz:", error);
@@ -73,7 +77,6 @@ export default function QuizEditor() {
     setQuiz({ ...quiz, [field]: value });
   };
 
-  // Question Management
   const addNewQuestion = () => {
     const newQuestion = {
       _id: Date.now().toString(),
@@ -99,10 +102,7 @@ export default function QuizEditor() {
     } else {
       updatedQuestions.push(currentQuestion);
     }
-    
-    // Calculate total points
     const totalPoints = updatedQuestions.reduce((sum, q) => sum + (q.points || 0), 0);
-    
     setQuiz({ 
       ...quiz, 
       questions: updatedQuestions,

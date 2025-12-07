@@ -253,7 +253,7 @@ export default function QuizPreview() {
             </button>
             <button
               className="btn btn-secondary"
-              onClick={() => router.push(`/Courses/${courseId}/Quizzes/${quizId}/edit`)}
+              onClick={() => router.push(`/Courses/${courseId}/Quizzes/${quizId}/Editor`)}
             >
               Edit Quiz
             </button>
