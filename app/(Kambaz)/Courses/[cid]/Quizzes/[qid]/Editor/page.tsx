@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setQuizzes } from "../../reducer";
 import * as client from "../../../../client";
+import { FormCheck, FormControl, FormSelect } from "react-bootstrap";
+import { kMaxLength } from "buffer";
 
 export default function QuizEditor() {
   const params = useParams();
@@ -222,7 +224,7 @@ export default function QuizEditor() {
             <label htmlFor="wd-quiz-title" className="form-label">
               Title
             </label>
-            <input
+            <FormControl
               type="text"
               id="wd-quiz-title"
               className="form-control"
@@ -235,7 +237,7 @@ export default function QuizEditor() {
             <label htmlFor="wd-quiz-points" className="form-label">
               Points
             </label>
-            <input
+            <FormControl
               type="number"
               id="wd-quiz-points"
               className="form-control"
@@ -248,11 +250,11 @@ export default function QuizEditor() {
             <label htmlFor="wd-quiz-description" className="form-label">
               Description
             </label>
-            <textarea
+            <FormControl 
               id="wd-quiz-description"
               className="form-control"
-              rows={4}
               value={quiz.description}
+              as="textarea"
               onChange={(e) => updateQuizField("description", e.target.value)}
             />
           </div>
@@ -261,7 +263,7 @@ export default function QuizEditor() {
             <label htmlFor="wd-quiz-type" className="form-label">
               Quiz Type
             </label>
-            <select
+            <FormSelect
               id="wd-quiz-type"
               className="form-select"
               value={quiz.quizType}
@@ -271,14 +273,14 @@ export default function QuizEditor() {
               <option value="Practice Quiz">Practice Quiz</option>
               <option value="Graded Survey">Graded Survey</option>
               <option value="Ungraded Survey">Ungraded Survey</option>
-            </select>
+            </FormSelect>
           </div>
 
           <div className="mb-3">
             <label htmlFor="wd-assignment-group" className="form-label">
               Assignment Group
             </label>
-            <select
+            <FormSelect
               id="wd-assignment-group"
               className="form-select"
               value={quiz.assignmentGroup}
@@ -290,7 +292,7 @@ export default function QuizEditor() {
               <option value="Exams">Exams</option>
               <option value="Assignments">Assignments</option>
               <option value="Project">Project</option>
-            </select>
+            </FormSelect>
           </div>
 
           <div className="mb-3">
@@ -325,16 +327,21 @@ export default function QuizEditor() {
               />
               <label htmlFor="wd-time-limit">Yes</label>
             </div>
-            <input
+          </div>
+
+          {quiz.timeLimit && (
+          <div className="mb-3">
+            <label className="form-label">Time Limit:</label>
+            <FormControl
               type="number"
               id="wd-time-limit"
               className="form-control"
               value={quiz.timeLimit}
               onChange={(e) =>
-                updateQuizField("timeLimit", parseInt(e.target.value))
-              }
+                updateQuizField("timeLimit", parseInt(e.target.value))}
             />
           </div>
+          )}
 
           <div className="mb-3">
             <label className="form-label">Multiple Attempts</label>
@@ -362,7 +369,7 @@ export default function QuizEditor() {
               <label htmlFor="wd-how-many-attempts" className="form-label">
                 How Many Attempts
               </label>
-              <input
+              <FormControl
                 type="number"
                 id="wd-how-many-attempts"
                 className="form-control"
@@ -378,7 +385,7 @@ export default function QuizEditor() {
             <label htmlFor="wd-access-code" className="form-label">
               Access Code
             </label>
-            <input
+            <FormControl
               type="text"
               id="wd-access-code"
               className="form-control"
