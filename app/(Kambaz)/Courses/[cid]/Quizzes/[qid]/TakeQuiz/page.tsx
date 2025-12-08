@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import * as client from "../../../../client";
 import { FaInfoCircle } from "react-icons/fa";
 
+// Student quiz page
 export default function TakeQuiz() {
   const params = useParams();
   const router = useRouter();
@@ -12,8 +13,6 @@ export default function TakeQuiz() {
 
   const [quiz, setQuiz] = useState<any>(null);
   const [answers, setAnswers] = useState<any>({});
-  
-  // New state for navigation
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   useEffect(() => {
@@ -34,7 +33,6 @@ export default function TakeQuiz() {
   };
 
   const handleSubmit = () => {
-    // In a real app, you would send 'answers' to the backend here
     console.log("Submitting answers:", answers);
     alert("Quiz submitted!");
     router.push(`/Courses/${courseId}/Quizzes`);
@@ -59,7 +57,6 @@ export default function TakeQuiz() {
       </div>
 
       <div className="row">
-        {/* LEFT COLUMN: Question Area */}
         <div className="col-md-9">
           <div className="card mb-3">
             <div className="card-header d-flex justify-content-between bg-light">
@@ -70,10 +67,6 @@ export default function TakeQuiz() {
             <div className="card-body">
               <div className="mb-4" dangerouslySetInnerHTML={{ __html: question.question }} />
               {!question.question && <p className="mb-4">{question.question || "No question text"}</p>}
-
-              {/* --- Question Inputs --- */}
-              
-              {/* Multiple Choice */}
               {question.type === "multiple-choice" && (
                 <div>
                   {question.choices.map((choice: any, idx: number) => (
@@ -94,8 +87,6 @@ export default function TakeQuiz() {
                   ))}
                 </div>
               )}
-
-              {/* True/False */}
               {question.type === "true-false" && (
                 <div>
                   {["true", "false"].map((val) => (
@@ -116,8 +107,6 @@ export default function TakeQuiz() {
                   ))}
                 </div>
               )}
-
-              {/* Fill in Blank */}
               {question.type === "fill-in-blank" && (
                 <input
                   type="text"
@@ -129,8 +118,6 @@ export default function TakeQuiz() {
               )}
             </div>
           </div>
-
-          {/* Navigation Buttons (Bottom) */}
           <div className="d-flex justify-content-between mt-4">
             <button 
               className="btn btn-secondary" 
@@ -154,18 +141,15 @@ export default function TakeQuiz() {
             )}
           </div>
         </div>
-
-        {/* RIGHT COLUMN: Question Navigator */}
         <div className="col-md-3">
           <div className="card">
             <div className="card-header">Questions</div>
             <div className="card-body">
               <div className="d-flex flex-wrap gap-2">
                 {quiz.questions.map((q: any, index: number) => {
-                  // Determine button style based on state
                   let btnClass = "btn-outline-secondary";
-                  if (currentQuestionIndex === index) btnClass = "btn-primary"; // Active
-                  else if (answers[q._id]) btnClass = "btn-outline-info"; // Answered
+                  if (currentQuestionIndex === index) btnClass = "btn-primary";
+                  else if (answers[q._id]) btnClass = "btn-outline-info"; 
 
                   return (
                     <button

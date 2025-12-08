@@ -7,6 +7,7 @@ import { profile } from "@/app/(Kambaz)/Account/client";
 import { MdDoNotDisturb } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
 
+// QuizList
 export default function Quizzes() {
   const params = useParams();
   const router = useRouter();

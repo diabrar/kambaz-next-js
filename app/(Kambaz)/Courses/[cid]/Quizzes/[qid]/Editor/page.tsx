@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setQuizzes } from "../../reducer";
 import * as client from "../../../../client";
-import { FormCheck, FormControl, FormSelect } from "react-bootstrap";
-import { kMaxLength } from "buffer";
+import { FormControl, FormSelect } from "react-bootstrap";
 
+// Quiz editor 
 export default function QuizEditor() {
   const params = useParams();
   const router = useRouter();
@@ -164,7 +164,6 @@ export default function QuizEditor() {
   const updateChoice = (index: number, field: string, value: any) => {
     const newChoices = [...currentQuestion.choices];
     if (field === "isCorrect" && value) {
-      // Uncheck all other choices for multiple choice (single answer)
       newChoices.forEach((c, i) => (c.isCorrect = i === index));
     } else {
       newChoices[index] = { ...newChoices[index], [field]: value };

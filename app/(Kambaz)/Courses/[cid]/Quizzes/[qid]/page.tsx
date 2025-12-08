@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { findQuizById, updateQuiz } from "../../../client";
 import { profile } from "@/app/(Kambaz)/Account/client";
 
+// Details page 
 export default function QuizDetails() {
   const params = useParams();
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function QuizDetails() {
   const handleTogglePublish = async () => {
     try {
       await updateQuiz({ ...quiz, published: !quiz.published });
-      loadQuiz(); // Reload to get updated data
+      loadQuiz();
     } catch (error) {
       console.error("Error toggling publish:", error);
     }
