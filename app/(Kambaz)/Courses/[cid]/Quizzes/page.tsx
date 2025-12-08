@@ -118,7 +118,8 @@ export default function Quizzes() {
         </p>
       ) : (
         <ul id="wd-quiz-list" className="list-group">
-          {quizzes.map((quiz) => (
+          {quizzes.filter((quiz: any) => !isFaculty ? quiz.published : quiz)
+          .map((quiz) => (
             <li
               key={quiz._id}
               className="wd-quiz-list-item list-group-item p-3"
