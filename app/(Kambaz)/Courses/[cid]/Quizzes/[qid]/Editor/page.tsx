@@ -12,7 +12,9 @@ export default function QuizEditor() {
   const quizId = params.qid as string;
   const dispatch = useDispatch();
 
-  const [activeTab, setActiveTab] = useState<"details" | "questions">("details");
+  const [activeTab, setActiveTab] = useState<"details" | "questions">(
+    "details"
+  );
   const [quiz, setQuiz] = useState<any>({
     title: "",
     description: "",
@@ -31,10 +33,12 @@ export default function QuizEditor() {
     dueDate: "",
     availableDate: "",
     untilDate: "",
-    questions: []
+    questions: [],
   });
   const [currentQuestion, setCurrentQuestion] = useState<any>(null);
-  const [editingQuestionIndex, setEditingQuestionIndex] = useState<number | null>(null);
+  const [editingQuestionIndex, setEditingQuestionIndex] = useState<
+    number | null
+  >(null);
 
   useEffect(() => {
     loadQuiz();
@@ -53,7 +57,7 @@ export default function QuizEditor() {
     try {
       const updatedQuiz = await client.updateQuiz(quiz);
       dispatch(setQuizzes(updatedQuiz));
-      router.push(`/Courses/${courseId}/Quizzes`)
+      router.push(`/Courses/${courseId}/Quizzes`);
     } catch (error) {
       console.error("Error saving quiz:", error);
     }
@@ -86,8 +90,8 @@ export default function QuizEditor() {
       question: "",
       choices: [
         { text: "", isCorrect: true },
-        { text: "", isCorrect: false }
-      ]
+        { text: "", isCorrect: false },
+      ],
     };
     setCurrentQuestion(newQuestion);
     setEditingQuestionIndex(quiz.questions.length);
@@ -95,18 +99,24 @@ export default function QuizEditor() {
 
   const saveQuestion = () => {
     if (!currentQuestion) return;
-    
+
     const updatedQuestions = [...quiz.questions];
-    if (editingQuestionIndex !== null && editingQuestionIndex < updatedQuestions.length) {
+    if (
+      editingQuestionIndex !== null &&
+      editingQuestionIndex < updatedQuestions.length
+    ) {
       updatedQuestions[editingQuestionIndex] = currentQuestion;
     } else {
       updatedQuestions.push(currentQuestion);
     }
-    const totalPoints = updatedQuestions.reduce((sum, q) => sum + (q.points || 0), 0);
-    setQuiz({ 
-      ...quiz, 
+    const totalPoints = updatedQuestions.reduce(
+      (sum, q) => sum + (q.points || 0),
+      0
+    );
+    setQuiz({
+      ...quiz,
       questions: updatedQuestions,
-      points: totalPoints 
+      points: totalPoints,
     });
     setCurrentQuestion(null);
     setEditingQuestionIndex(null);
@@ -118,12 +128,17 @@ export default function QuizEditor() {
   };
 
   const deleteQuestion = (index: number) => {
-    const updatedQuestions = quiz.questions.filter((_: any, i: number) => i !== index);
-    const totalPoints = updatedQuestions.reduce((sum: number, q: any) => sum + (q.points || 0), 0);
-    setQuiz({ 
-      ...quiz, 
+    const updatedQuestions = quiz.questions.filter(
+      (_: any, i: number) => i !== index
+    );
+    const totalPoints = updatedQuestions.reduce(
+      (sum: number, q: any) => sum + (q.points || 0),
+      0
+    );
+    setQuiz({
+      ...quiz,
       questions: updatedQuestions,
-      points: totalPoints 
+      points: totalPoints,
     });
   };
 
@@ -137,7 +152,10 @@ export default function QuizEditor() {
   };
 
   const addChoice = () => {
-    const newChoices = [...(currentQuestion.choices || []), { text: "", isCorrect: false }];
+    const newChoices = [
+      ...(currentQuestion.choices || []),
+      { text: "", isCorrect: false },
+    ];
     updateQuestionField("choices", newChoices);
   };
 
@@ -145,7 +163,7 @@ export default function QuizEditor() {
     const newChoices = [...currentQuestion.choices];
     if (field === "isCorrect" && value) {
       // Uncheck all other choices for multiple choice (single answer)
-      newChoices.forEach((c, i) => c.isCorrect = i === index);
+      newChoices.forEach((c, i) => (c.isCorrect = i === index));
     } else {
       newChoices[index] = { ...newChoices[index], [field]: value };
     }
@@ -153,7 +171,9 @@ export default function QuizEditor() {
   };
 
   const removeChoice = (index: number) => {
-    const newChoices = currentQuestion.choices.filter((_: any, i: number) => i !== index);
+    const newChoices = currentQuestion.choices.filter(
+      (_: any, i: number) => i !== index
+    );
     updateQuestionField("choices", newChoices);
   };
 
@@ -169,7 +189,9 @@ export default function QuizEditor() {
   };
 
   const removePossibleAnswer = (index: number) => {
-    const newAnswers = currentQuestion.possibleAnswers.filter((_: any, i: number) => i !== index);
+    const newAnswers = currentQuestion.possibleAnswers.filter(
+      (_: any, i: number) => i !== index
+    );
     updateQuestionField("possibleAnswers", newAnswers);
   };
 
@@ -197,7 +219,9 @@ export default function QuizEditor() {
       {activeTab === "details" && (
         <div id="wd-quiz-details-editor">
           <div className="mb-3">
-            <label htmlFor="wd-quiz-title" className="form-label">Title</label>
+            <label htmlFor="wd-quiz-title" className="form-label">
+              Title
+            </label>
             <input
               type="text"
               id="wd-quiz-title"
@@ -208,7 +232,22 @@ export default function QuizEditor() {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="wd-quiz-description" className="form-label">Description</label>
+            <label htmlFor="wd-quiz-points" className="form-label">
+                Points
+            </label>
+            <input
+                type="number"
+                id="wd-quiz-points"
+                className="form-control"
+                value={quiz.points}
+                onChange={(e) => updateQuizField("points", e.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="wd-quiz-description" className="form-label">
+              Description
+            </label>
             <textarea
               id="wd-quiz-description"
               className="form-control"
@@ -219,7 +258,9 @@ export default function QuizEditor() {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="wd-quiz-type" className="form-label">Quiz Type</label>
+            <label htmlFor="wd-quiz-type" className="form-label">
+              Quiz Type
+            </label>
             <select
               id="wd-quiz-type"
               className="form-select"
@@ -234,12 +275,16 @@ export default function QuizEditor() {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="wd-assignment-group" className="form-label">Assignment Group</label>
+            <label htmlFor="wd-assignment-group" className="form-label">
+              Assignment Group
+            </label>
             <select
               id="wd-assignment-group"
               className="form-select"
               value={quiz.assignmentGroup}
-              onChange={(e) => updateQuizField("assignmentGroup", e.target.value)}
+              onChange={(e) =>
+                updateQuizField("assignmentGroup", e.target.value)
+              }
             >
               <option value="Quizzes">Quizzes</option>
               <option value="Exams">Exams</option>
@@ -256,20 +301,28 @@ export default function QuizEditor() {
                 id="wd-shuffle-answers"
                 className="form-check-input"
                 checked={quiz.shuffleAnswers}
-                onChange={(e) => updateQuizField("shuffleAnswers", e.target.checked)}
+                onChange={(e) =>
+                  updateQuizField("shuffleAnswers", e.target.checked)
+                }
               />
-              <label htmlFor="wd-shuffle-answers" className="form-check-label">Yes</label>
+              <label htmlFor="wd-shuffle-answers" className="form-check-label">
+                Yes
+              </label>
             </div>
           </div>
 
           <div className="mb-3">
-            <label htmlFor="wd-time-limit" className="form-label">Time Limit (Minutes)</label>
+            <label htmlFor="wd-time-limit" className="form-label">
+              Time Limit (Minutes)
+            </label>
             <input
               type="number"
               id="wd-time-limit"
               className="form-control"
               value={quiz.timeLimit}
-              onChange={(e) => updateQuizField("timeLimit", parseInt(e.target.value))}
+              onChange={(e) =>
+                updateQuizField("timeLimit", parseInt(e.target.value))
+              }
             />
           </div>
 
@@ -281,27 +334,40 @@ export default function QuizEditor() {
                 id="wd-multiple-attempts"
                 className="form-check-input"
                 checked={quiz.multipleAttempts}
-                onChange={(e) => updateQuizField("multipleAttempts", e.target.checked)}
+                onChange={(e) =>
+                  updateQuizField("multipleAttempts", e.target.checked)
+                }
               />
-              <label htmlFor="wd-multiple-attempts" className="form-check-label">Yes</label>
+              <label
+                htmlFor="wd-multiple-attempts"
+                className="form-check-label"
+              >
+                Yes
+              </label>
             </div>
           </div>
 
           {quiz.multipleAttempts && (
             <div className="mb-3">
-              <label htmlFor="wd-how-many-attempts" className="form-label">How Many Attempts</label>
+              <label htmlFor="wd-how-many-attempts" className="form-label">
+                How Many Attempts
+              </label>
               <input
                 type="number"
                 id="wd-how-many-attempts"
                 className="form-control"
                 value={quiz.howManyAttempts}
-                onChange={(e) => updateQuizField("howManyAttempts", parseInt(e.target.value))}
+                onChange={(e) =>
+                  updateQuizField("howManyAttempts", parseInt(e.target.value))
+                }
               />
             </div>
           )}
 
           <div className="mb-3">
-            <label htmlFor="wd-access-code" className="form-label">Access Code</label>
+            <label htmlFor="wd-access-code" className="form-label">
+              Access Code
+            </label>
             <input
               type="text"
               id="wd-access-code"
@@ -320,41 +386,63 @@ export default function QuizEditor() {
                 id="wd-one-question"
                 className="form-check-input"
                 checked={quiz.oneQuestionAtATime}
-                onChange={(e) => updateQuizField("oneQuestionAtATime", e.target.checked)}
+                onChange={(e) =>
+                  updateQuizField("oneQuestionAtATime", e.target.checked)
+                }
               />
-              <label htmlFor="wd-one-question" className="form-check-label">Yes</label>
+              <label htmlFor="wd-one-question" className="form-check-label">
+                Yes
+              </label>
             </div>
           </div>
 
           <div className="mb-3">
-            <label htmlFor="wd-due-date" className="form-label">Due Date</label>
+            <label htmlFor="wd-due-date" className="form-label">
+              Due Date
+            </label>
             <input
               type="datetime-local"
               id="wd-due-date"
               className="form-control"
-              value={quiz.dueDate ? new Date(quiz.dueDate).toISOString().slice(0, 16) : ""}
+              value={
+                quiz.dueDate
+                  ? new Date(quiz.dueDate).toISOString().slice(0, 16)
+                  : ""
+              }
               onChange={(e) => updateQuizField("dueDate", e.target.value)}
             />
           </div>
 
           <div className="mb-3">
-            <label htmlFor="wd-available-date" className="form-label">Available From</label>
+            <label htmlFor="wd-available-date" className="form-label">
+              Available From
+            </label>
             <input
               type="datetime-local"
               id="wd-available-date"
               className="form-control"
-              value={quiz.availableDate ? new Date(quiz.availableDate).toISOString().slice(0, 16) : ""}
+              value={
+                quiz.availableDate
+                  ? new Date(quiz.availableDate).toISOString().slice(0, 16)
+                  : ""
+              }
               onChange={(e) => updateQuizField("availableDate", e.target.value)}
             />
           </div>
 
           <div className="mb-3">
-            <label htmlFor="wd-until-date" className="form-label">Until</label>
+            <label htmlFor="wd-until-date" className="form-label">
+              Until
+            </label>
             <input
               type="datetime-local"
               id="wd-until-date"
               className="form-control"
-              value={quiz.untilDate ? new Date(quiz.untilDate).toISOString().slice(0, 16) : ""}
+              value={
+                quiz.untilDate
+                  ? new Date(quiz.untilDate).toISOString().slice(0, 16)
+                  : ""
+              }
               onChange={(e) => updateQuizField("untilDate", e.target.value)}
             />
           </div>
@@ -376,17 +464,19 @@ export default function QuizEditor() {
                 <div className="card-body">
                   <div className="d-flex justify-content-between align-items-start">
                     <div>
-                      <h5>{q.title} ({q.points} pts)</h5>
+                      <h5>
+                        {q.title} ({q.points} pts)
+                      </h5>
                       <p className="text-muted">{q.type}</p>
                     </div>
                     <div>
-                      <button 
+                      <button
                         className="btn btn-sm btn-outline-primary me-2"
                         onClick={() => editQuestion(index)}
                       >
                         Edit
                       </button>
-                      <button 
+                      <button
                         className="btn btn-sm btn-outline-danger"
                         onClick={() => deleteQuestion(index)}
                       >
@@ -402,8 +492,14 @@ export default function QuizEditor() {
           {currentQuestion && (
             <div className="card">
               <div className="card-body">
-                <h5>{editingQuestionIndex !== null && editingQuestionIndex < quiz.questions.length ? "Edit" : "New"} Question</h5>
-                
+                <h5>
+                  {editingQuestionIndex !== null &&
+                  editingQuestionIndex < quiz.questions.length
+                    ? "Edit"
+                    : "New"}{" "}
+                  Question
+                </h5>
+
                 <div className="mb-3">
                   <label className="form-label">Question Type</label>
                   <select
@@ -416,26 +512,26 @@ export default function QuizEditor() {
                         title: currentQuestion.title,
                         points: currentQuestion.points,
                         question: currentQuestion.question,
-                        type: type
+                        type: type,
                       };
-                      
+
                       if (type === "multiple-choice") {
                         setCurrentQuestion({
                           ...baseQuestion,
                           choices: [
                             { text: "", isCorrect: true },
-                            { text: "", isCorrect: false }
-                          ]
+                            { text: "", isCorrect: false },
+                          ],
                         });
                       } else if (type === "true-false") {
                         setCurrentQuestion({
                           ...baseQuestion,
-                          correctAnswer: "true"
+                          correctAnswer: "true",
                         });
                       } else if (type === "fill-in-blank") {
                         setCurrentQuestion({
                           ...baseQuestion,
-                          possibleAnswers: [""]
+                          possibleAnswers: [""],
                         });
                       }
                     }}
@@ -452,7 +548,9 @@ export default function QuizEditor() {
                     type="text"
                     className="form-control"
                     value={currentQuestion.title}
-                    onChange={(e) => updateQuestionField("title", e.target.value)}
+                    onChange={(e) =>
+                      updateQuestionField("title", e.target.value)
+                    }
                   />
                 </div>
 
@@ -462,7 +560,12 @@ export default function QuizEditor() {
                     type="number"
                     className="form-control"
                     value={currentQuestion.points}
-                    onChange={(e) => updateQuestionField("points", parseInt(e.target.value) || 0)}
+                    onChange={(e) =>
+                      updateQuestionField(
+                        "points",
+                        parseInt(e.target.value) || 0
+                      )
+                    }
                   />
                 </div>
 
@@ -472,38 +575,49 @@ export default function QuizEditor() {
                     className="form-control"
                     rows={3}
                     value={currentQuestion.question}
-                    onChange={(e) => updateQuestionField("question", e.target.value)}
+                    onChange={(e) =>
+                      updateQuestionField("question", e.target.value)
+                    }
                   />
                 </div>
 
                 {currentQuestion.type === "multiple-choice" && (
                   <div className="mb-3">
                     <label className="form-label">Choices</label>
-                    {currentQuestion.choices?.map((choice: any, idx: number) => (
-                      <div key={idx} className="input-group mb-2">
-                        <div className="input-group-text">
+                    {currentQuestion.choices?.map(
+                      (choice: any, idx: number) => (
+                        <div key={idx} className="input-group mb-2">
+                          <div className="input-group-text">
+                            <input
+                              type="radio"
+                              checked={choice.isCorrect}
+                              onChange={() =>
+                                updateChoice(idx, "isCorrect", true)
+                              }
+                            />
+                          </div>
                           <input
-                            type="radio"
-                            checked={choice.isCorrect}
-                            onChange={() => updateChoice(idx, "isCorrect", true)}
+                            type="text"
+                            className="form-control"
+                            value={choice.text}
+                            onChange={(e) =>
+                              updateChoice(idx, "text", e.target.value)
+                            }
+                            placeholder={`Choice ${idx + 1}`}
                           />
+                          <button
+                            className="btn btn-outline-danger"
+                            onClick={() => removeChoice(idx)}
+                          >
+                            Remove
+                          </button>
                         </div>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={choice.text}
-                          onChange={(e) => updateChoice(idx, "text", e.target.value)}
-                          placeholder={`Choice ${idx + 1}`}
-                        />
-                        <button
-                          className="btn btn-outline-danger"
-                          onClick={() => removeChoice(idx)}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    ))}
-                    <button className="btn btn-sm btn-secondary" onClick={addChoice}>
+                      )
+                    )}
+                    <button
+                      className="btn btn-sm btn-secondary"
+                      onClick={addChoice}
+                    >
                       + Add Choice
                     </button>
                   </div>
@@ -518,9 +632,13 @@ export default function QuizEditor() {
                         id="answer-true"
                         className="form-check-input"
                         checked={currentQuestion.correctAnswer === "true"}
-                        onChange={() => updateQuestionField("correctAnswer", "true")}
+                        onChange={() =>
+                          updateQuestionField("correctAnswer", "true")
+                        }
                       />
-                      <label htmlFor="answer-true" className="form-check-label">True</label>
+                      <label htmlFor="answer-true" className="form-check-label">
+                        True
+                      </label>
                     </div>
                     <div className="form-check">
                       <input
@@ -528,34 +646,50 @@ export default function QuizEditor() {
                         id="answer-false"
                         className="form-check-input"
                         checked={currentQuestion.correctAnswer === "false"}
-                        onChange={() => updateQuestionField("correctAnswer", "false")}
+                        onChange={() =>
+                          updateQuestionField("correctAnswer", "false")
+                        }
                       />
-                      <label htmlFor="answer-false" className="form-check-label">False</label>
+                      <label
+                        htmlFor="answer-false"
+                        className="form-check-label"
+                      >
+                        False
+                      </label>
                     </div>
                   </div>
                 )}
 
                 {currentQuestion.type === "fill-in-blank" && (
                   <div className="mb-3">
-                    <label className="form-label">Possible Answers (case insensitive)</label>
-                    {currentQuestion.possibleAnswers?.map((answer: string, idx: number) => (
-                      <div key={idx} className="input-group mb-2">
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={answer}
-                          onChange={(e) => updatePossibleAnswer(idx, e.target.value)}
-                          placeholder={`Answer ${idx + 1}`}
-                        />
-                        <button
-                          className="btn btn-outline-danger"
-                          onClick={() => removePossibleAnswer(idx)}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    ))}
-                    <button className="btn btn-sm btn-secondary" onClick={addPossibleAnswer}>
+                    <label className="form-label">
+                      Possible Answers (case insensitive)
+                    </label>
+                    {currentQuestion.possibleAnswers?.map(
+                      (answer: string, idx: number) => (
+                        <div key={idx} className="input-group mb-2">
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={answer}
+                            onChange={(e) =>
+                              updatePossibleAnswer(idx, e.target.value)
+                            }
+                            placeholder={`Answer ${idx + 1}`}
+                          />
+                          <button
+                            className="btn btn-outline-danger"
+                            onClick={() => removePossibleAnswer(idx)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      )
+                    )}
+                    <button
+                      className="btn btn-sm btn-secondary"
+                      onClick={addPossibleAnswer}
+                    >
                       + Add Answer
                     </button>
                   </div>
@@ -565,7 +699,10 @@ export default function QuizEditor() {
                   <button className="btn btn-success" onClick={saveQuestion}>
                     Save Question
                   </button>
-                  <button className="btn btn-secondary" onClick={cancelQuestionEdit}>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={cancelQuestionEdit}
+                  >
                     Cancel
                   </button>
                 </div>
