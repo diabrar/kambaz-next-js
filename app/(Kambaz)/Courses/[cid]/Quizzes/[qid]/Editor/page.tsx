@@ -57,7 +57,7 @@ export default function QuizEditor() {
     try {
       const updatedQuiz = await client.updateQuiz(quiz);
       dispatch(setQuizzes(updatedQuiz));
-      router.push(`/Courses/${courseId}/Quizzes`);
+      router.push(`/Courses/${courseId}/Quizzes/${quizId}`);
     } catch (error) {
       console.error("Error saving quiz:", error);
     }
@@ -233,14 +233,14 @@ export default function QuizEditor() {
 
           <div className="mb-3">
             <label htmlFor="wd-quiz-points" className="form-label">
-                Points
+              Points
             </label>
             <input
-                type="number"
-                id="wd-quiz-points"
-                className="form-control"
-                value={quiz.points}
-                onChange={(e) => updateQuizField("points", e.target.value)}
+              type="number"
+              id="wd-quiz-points"
+              className="form-control"
+              value={quiz.points}
+              onChange={(e) => updateQuizField("points", e.target.value)}
             />
           </div>
 
@@ -315,6 +315,16 @@ export default function QuizEditor() {
             <label htmlFor="wd-time-limit" className="form-label">
               Time Limit (Minutes)
             </label>
+            <div className="form-check">
+              <input
+                type="checkbox"
+                id="wd-time-limit"
+                className="form-check-input"
+                checked={quiz.timeLimit}
+                onChange={(e) => updateQuizField("timeLimit", e.target.checked)}
+              />
+              <label htmlFor="wd-time-limit">Yes</label>
+            </div>
             <input
               type="number"
               id="wd-time-limit"
